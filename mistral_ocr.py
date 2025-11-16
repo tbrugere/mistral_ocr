@@ -183,7 +183,8 @@ async def wait_for_job_to_finish(
     "--api-key",
     envvar="MISTRAL_API_KEY",
     required=True,
-    help="API key for Mistral OCR service.",
+    help="API key for Mistral API",
+    show_envvar=True,
     prompt=True,
     hide_input=True,
 )
@@ -195,9 +196,14 @@ async def wait_for_job_to_finish(
         "wb",
     ),
     required=False,
-    help="save the raw result of the batch job",
+    help="save the raw result of the batch job to file",
 )
-@click.option("--resume", type=str, required=False, help="resume from job id")
+@click.option(
+    "--resume",
+    type=str,
+    required=False,
+    help="resume from a previously started batch job's id",
+)
 def sync_main(
     file_path: tuple[Path, ...],
     api_key: str,
