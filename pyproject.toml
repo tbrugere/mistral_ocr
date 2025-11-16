@@ -8,3 +8,13 @@ dependencies = [
     "click>=8.3.1",
     "mistralai>=1.9.11",
 ]
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules= ["mistral_ocr"]
+
+[project.scripts]
+mistral-ocr = "mistral_ocr:sync_main"

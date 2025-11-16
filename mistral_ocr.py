@@ -63,7 +63,7 @@ class ResponseModelResponse(Model):
     body: ResponseBody
 
     def write(self, directory: Path, md_name: str):
-        md_path = directory / md_name
+        md_path = directory / f"{md_name}.md"
         with md_path.open("w") as f:
             for md in self.body.all_markdown():
                 f.write(md)
@@ -156,6 +156,9 @@ def sync_main(file_path: tuple[Path, ...], api_key: str, model: str, output_file
     asyncio.run(main(api_key, file_path, model, output_file, resume))
 
 async def main(api_key: str, file_path: tuple[Path, ...], ocr_model: str, output_file: BinaryIO|None = None, resume: str|None = None) -> None:
+    if not file_path:
+        logging.error("No files provided")
+        exit()
     client = Mistral(api_key)
     name_to_path = {f.name: f for f in file_path}
     if len(name_to_path) != len(file_path):
